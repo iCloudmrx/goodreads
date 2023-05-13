@@ -1,8 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views import View
 from .forms import SignUpCreationForm, LoginForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
 
@@ -44,7 +47,7 @@ class LoginView(View):
         })
 
     def post(self, request):
-        form = LoginForm(request.POST)
+        form = LoginForm(data=request.POST)
         if form.is_valid():
             username = request.POST['username']
             password = request.POST['password']
@@ -60,3 +63,16 @@ class LoginView(View):
             return render(request, 'users/login.html', {
                 'form': LoginForm()
             })
+
+
+class ProfileView(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'users/profile.html', {
+            'user': request.user
+        })
+
+
+class LogOutView(LoginRequiredMixin, View):
+    def get(self, request):
+        logout(request)
+        return redirect('home')

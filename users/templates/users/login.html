@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Login</title>
+    </head>
+    <body>
         <form method="post" action="{% url 'users:login' %}">
-            {%csrf_token%}
-            {{form.as_p}}
+            {%csrf_token%} {{form.as_p}}
             <button type="submit">Submit</button>
         </form>
-</body>
+    </body>
 </html>
