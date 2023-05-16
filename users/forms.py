@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User
+from .models import CustomerUser
 from django.core import validators
 
 
@@ -19,12 +19,12 @@ class SignUpCreationForm(forms.Form):
 
     def validate_email(email):
         print(email)
-        if User.objects.filter(email=email).exists():
+        if CustomerUser.objects.filter(email=email).exists():
             raise forms.ValidationError("Email allaqachon ro'yxatdan o'tilgan")
         return email
 
     def validate_username(username):
-        if User.objects.filter(username=username).exists():
+        if CustomerUser.objects.filter(username=username).exists():
             raise forms.ValidationError(
                 "Username allaqachon ro'yxatdan o'tilgan")
         return username

@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
+from .models import CustomerUser
 from django.urls import reverse
 from django.contrib.auth import get_user
 
@@ -19,7 +19,7 @@ class RegistrationTestCase(TestCase):
 
             }
         )
-        user = User.objects.get(username='test')
+        user = CustomerUser.objects.get(username='test')
 
         self.assertEqual(user.username, 'test')
         self.assertEqual(user.first_name, 'test')
@@ -30,7 +30,7 @@ class RegistrationTestCase(TestCase):
 
 class LoginTestCase(TestCase):
     def setUp(self):
-        self.user = User.objects.create(
+        self.user = CustomerUser.objects.create(
             username='test',
             first_name='test'
         )
@@ -66,7 +66,7 @@ class ProfileTestCase(TestCase):
         self.assertEqual(response.url, '/users/login/?next=/users/profile/')
 
     def test_profile_detail(self):
-        user = User.objects.create(
+        user = CustomerUser.objects.create(
             username='test',
             first_name='test',
             last_name='test',

@@ -1,11 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views import View
 from .forms import SignUpCreationForm, LoginForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from .models import CustomerUser
+from django_email_verification import send_email
 
 # Create your views here.
 
@@ -25,19 +26,30 @@ class RegisterView(View):
             last_name = request.POST['last_name']
             email = request.POST['email']
             password = request.POST['password']
-            user = User.objects.create(
+            user = CustomerUser.objects.create(
                 username=username,
                 first_name=first_name,
                 last_name=last_name,
                 email=email
             )
             user.set_password(password)
+            user.is_active = False
+            user.is_staff = False
+            # send_email(user)
             user.save()
-            return redirect('users:login')
+            return redirect('home')
         else:
             return render(request, 'users/register.html', {
                 'form': SignUpCreationForm()
             })
+
+
+def confirm_needed(request, id):
+    user = CustomerUser.objects.get(id=id)
+    if user.is_active == True:
+        redirect('users:login')
+    else:
+        return render(request, 'confirm_needed.html')
 
 
 class LoginView(View):

@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     # local apps
     'books',
     'users',
+
+    # global apps
+    'django_email_verification'
 ]
 
 MIDDLEWARE = [
@@ -81,10 +84,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'railway',
-        'HOST': 'containers-us-west-16.railway.app',
-        'PORT': '7408',
+        'HOST': 'containers-us-west-209.railway.app',
+        'PORT': '7292',
         'USER': 'postgres',
-        'PASSWORD': 'pn0UmDSniFhVgWLlDpBs',
+        'PASSWORD': 'e16gsfOYlOCfxfoP1Rdl',
     }
 }
 
@@ -134,3 +137,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'users:login'
 
 LOGOUT_URL = 'users:logout'
+
+AUTH_USER_MODEL = 'users.CustomerUser'
+
+
+def verified_callback(user):
+    user.is_active = True
+
+
+EMAIL_VERIFIED_CALLBACK = verified_callback
+EMAIL_FROM_ADDRESS = 'noreply@aliasaddress.com'
+EMAIL_MAIL_SUBJECT = 'Confirm your email, {{user.username}}'
+EMAIL_MAIL_HTML = 'mail_body.html'
+EMAIL_MAIL_PLAIN = 'mail_body.txt'
+EMAIL_MAIL_TOKEN_LIFE = 60 * 60
+EMAIL_MAIL_PAGE_TEMPLATE = 'confirm_template.html'
+EMAIL_PAGE_DOMAIN = 'http://127.0.0.1:8000'
+EMAIL_MULTI_USER = True  # optional (defaults to False)
+
+# For Django Email Backend
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mymail@gmail.com'
+EMAIL_HOST_PASSWORD = 'mYC00lP4ssw0rd'  # os.environ['password_key'] suggested
+EMAIL_USE_TLS = True

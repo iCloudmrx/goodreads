@@ -1,0 +1,4 @@
+<h1>You are almost there {{user.username}}</h1>
+<p>Please confirm your email to complete the registration</p>
+<p>Please click the following link to confirm your email: {{ link }}</p>
+<p>The token expires on {{expiry|time:"TIME_FORMAT"}}</p>
