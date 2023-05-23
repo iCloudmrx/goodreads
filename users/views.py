@@ -5,9 +5,8 @@ from .forms import SignUpCreationForm, LoginForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from .models import CustomerUser
 from django_email_verification import send_email
-
+from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -25,8 +24,8 @@ class RegisterView(View):
             first_name = request.POST['first_name']
             last_name = request.POST['last_name']
             email = request.POST['email']
-            password = request.POST['password']
-            user = CustomerUser.objects.create(
+            password = request.POST['password1']
+            user = User.objects.create(
                 username=username,
                 first_name=first_name,
                 last_name=last_name,
@@ -45,7 +44,7 @@ class RegisterView(View):
 
 
 def confirm_needed(request, id):
-    user = CustomerUser.objects.get(id=id)
+    user = User.objects.get(id=id)
     if user.is_active == True:
         redirect('users:login')
     else:

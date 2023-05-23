@@ -1,6 +1,47 @@
 {% extends 'base.html' %} {% block title %}{{book.title}}{% endblock title %} {% block content %} {% if book %}
-<h1>{{book.title}}</h1>
-<br />
-<p>Author: {{book.author.first_name}} {{book.author.last_name}}</p>
-<p>Description: {{book.desc}}</p>
+<div class="row">
+    <div class="col-3">
+        <img src="{{ book.image }}" alt="" style="width: 260px" class="mt-4" />
+    </div>
+    <div class="col-9">
+        <h1>{{book.title}}</h1>
+        <br />
+        <p>Author: {{book.author.first_name}} {{book.author.last_name}}</p>
+        <p>Description: {{book.desc}}</p>
+        <p>isbn: {{ book.isbn }}</p>
+        <hr />
+        <form method="post" action="{% url 'review' book.id %}">
+            {% csrf_token %} {% for field in form %}
+            <div class="mb-3">
+                {% if field.errors %}
+                <ul class="errorlist">
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %} {{ field.label_tag }} {{ field }}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <hr />
+        {% if book.book_review_set.exists %}
+        <h2>Review</h2>
+        {% for review in book.book_review_set.all %}
+        <div class="col-2 mb-5">
+            <img
+                src="https://img.freepik.com/free-icon/user_318-563642.jpg"
+                alt=""
+                style="width: 100px; border-radius: 50%"
+            />
+        </div>
+        <div class="col-9 mb-5">
+            <div>
+                <h5><b>{{ review.user.username }}</b> rated it {{ review.star_given }} stars</h5>
+                <p>Review: {{review.comment}}</p>
+            </div>
+        </div>
+        {% endfor %} {% endif %}
+    </div>
+</div>
 {% else %} No book found. {% endif %} {% endblock content%}

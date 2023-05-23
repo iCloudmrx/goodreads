@@ -2,9 +2,42 @@
 <h1>Books</h1>
 {% if books %}
 <ul>
-    {% for book in books %}
-    <li><a href="{% url 'detail' book.id %}">{{book.title}}</a></li>
-    <br />
+    {% for book in page.object_list %}
+    <div class="card mb-3" style="max-width: 540px">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ book.image  }}" class="img-fluid rounded-start" alt="..." />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a
+                            class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                            href="{% url 'detail' book.id %}"
+                        >
+                            {{book.title}}
+                        </a>
+                    </h5>
+                    <p class="card-text">{{ book.desc|truncatewords:30 }}</p>
+                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
     {% endfor %}
+</ul>
+
+<ul class="pagination">
+    {% if page.has_previous %}
+    <li class="page-item">
+        <a class="page-link" href="{% url 'list' %}?page={{ page.previous_page_number }}">Previous</a>
+    </li>
+    {% endif %}
+    <li class="page-item"><a class="page-link" href="">{{page.number}}</a></li>
+    {% if page.has_next %}
+    <li class="page-item">
+        <a class="page-link" href="{% url 'list' %}?page={{ page.next_page_number }}">Next</a>
+    </li>
+    {% endif %}
 </ul>
 {% else %} No books found. {% endif %} {% endblock content%}
