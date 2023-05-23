@@ -4,6 +4,7 @@
 
 <div class="container posts-content">
     <div class="row">
+        {% for review in reviews %}
         <div class="col-lg-6">
             <div class="card mb-4">
                 <div class="card-body">
@@ -14,23 +15,34 @@
                             alt=""
                         />
                         <div class="media-body ml-3">
-                            Kenneth Frazier
-                            <div class="text-muted small">3 days ago</div>
+                            <b>{{ review.user.username }}</b> rated thisbook {{review.star_given}}
+                            <div class="text-muted small">{{ review.created_at|date:"M d, Y" }}</div>
                         </div>
                     </div>
 
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus finibus commodo bibendum.
-                        Vivamus laoreet blandit odio, vel finibus quam dictum ut.
-                    </p>
+                    <p>{{ review.comment|truncatewords:100 }}</p>
                     <a
                         href="javascript:void(0)"
                         class="ui-rect ui-bg-cover"
-                        style="background-image: url('https://bootdey.com/img/Content/avatar/avatar3.png')"
+                        style="background-image: url('{{ review.book.image }}')"
                     ></a>
                 </div>
             </div>
         </div>
+        {% endfor %}
+        <ul class="pagination">
+            {% if reviews.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'home' %}?page={{ reviews.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+            <li class="page-item"><a class="page-link" href="">{{reviews.number}}</a></li>
+            {% if reviews.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'home' %}?page={{ reviews.next_page_number }}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
     </div>
 </div>
 {% endblock content %}
