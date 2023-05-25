@@ -6,7 +6,11 @@
     <div class="col-9">
         <h1>{{book.title}}</h1>
         <br />
-        <p>Author: {{book.author.first_name}} {{book.author.last_name}}</p>
+        <p>
+            Author: {% for author in book.book_author_set.all %} {% if forloop.last %} {{author.author.first_name}}
+            {{author.author.last_name}} {% else %} {{author.author.first_name}} {{author.author.last_name}}, {% endif %}
+            {% endfor %}
+        </p>
         <p>Description: {{book.desc}}</p>
         <p>isbn: {{ book.isbn }}</p>
         <hr />

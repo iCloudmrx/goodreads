@@ -42,9 +42,11 @@ INSTALLED_APPS = [
     # local apps
     'books',
     'users',
+    'api',
 
     # global apps
-    'django_email_verification'
+    'django_email_verification',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +79,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'goodreads.wsgi.application'
 
+
+REST_FRAMEWORK= {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 2,
+
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -161,3 +169,4 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'mymail@gmail.com'
 EMAIL_HOST_PASSWORD = 'mYC00lP4ssw0rd'  # os.environ['password_key'] suggested
 EMAIL_USE_TLS = True
+
