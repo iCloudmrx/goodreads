@@ -7,8 +7,11 @@
         <h1>{{book.title}}</h1>
         <br />
         <p>
-            Author: {% for author in book.book_author_set.all %} {% if forloop.last %} {{author.author.first_name}}
-            {{author.author.last_name}} {% else %} {{author.author.first_name}} {{author.author.last_name}}, {% endif %}
+            Author: {% for author in book.book_author_set.all %} {% if forloop.last %}
+            <a href="{% url 'author' id=author.author.id %}">{{author.author.first_name}} {{author.author.last_name}}</a>
+            {% else %}
+           <a href="{% url 'author' id=author.author.id %}">{{author.author.first_name}} {{author.author.last_name}}</a>,
+            {% endif %}
             {% endfor %}
         </p>
         <p>Description: {{book.desc}}</p>

@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% block title %}{{book.title}}{% endblock title %}
+{% block content %} {% if author %}
+<div class="row p-5">
+    <div class="col-3">
+        <img src="https://images.gr-assets.com/authors/1227984932p5/46636.jpg" alt="" style="width: 260px" class="mt-4 rounded float-start" />
+    </div>
+
+    <div class="col-9">
+        <h1>{{author.first_name}} {{author.last_name}}</h1>
+        <hr />
+         <span>email: <a href="{{ author.email }}">{{author.email}}</a></span><br>
+        {% if author.born %}
+        <span>Born: {{ author.born }}</span><br>
+        {% endif %}
+        {% if author.website %}
+        <span>Born: {{ author.website }}</span><br>
+        {% endif %}
+        {% if author.member_since %}
+        <span>Member since: {{ author.member_since|date:'d m y' }}</span><br><br>
+        {% endif %}
+        <p>
+            Bio: {{author.bio}}
+        </p>
+        <br>
+        <br>
+        <h5>{{author.first_name}} {{author.last_name}}'s Books</h5>
+        <hr>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-10"></div>
+        </div>
+
+    </div>
+</div>
+{% else %} No author found. {% endif %} {% endblock content%}

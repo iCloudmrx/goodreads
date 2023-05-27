@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import BookReviewForm
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Book, Book_Review
+from .models import Book, Book_Review, Author, Book_Author
 from django.views import View
 from django.core.paginator import Paginator
 from django.urls import reverse
@@ -56,4 +56,13 @@ class BookReviewView(LoginRequiredMixin, View):
         return render(request, 'books/detail.html', {
             'book': book,
             'form': form,
+        })
+
+
+class AuthorView(View):
+    def get(self,request,id):
+        author=Author.objects.get(id=id)
+        books=Book_Author.objects.filter(author=author)
+        return render(request,'books/author.html',{
+            'author':author
         })

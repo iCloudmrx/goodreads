@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils import timezone
-
 # Create your models here.
 
 
@@ -21,6 +20,10 @@ class Author(models.Model):
     last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     bio = models.TextField()
+    website= models.CharField(max_length=100,blank=True,null=True)
+    born = models.CharField(max_length=100, blank=True, null=True)
+    url = models.CharField(max_length=100, blank=True, null=True)
+    member_since = models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
