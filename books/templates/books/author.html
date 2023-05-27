@@ -2,10 +2,29 @@
 {% block content %} {% if author %}
 <div class="row p-5">
     <div class="col-3">
-        <img src="https://images.gr-assets.com/authors/1227984932p5/46636.jpg" alt="" style="width: 260px" class="mt-4 rounded float-start" />
+        <div style="margin-bottom: 20px; margin-top: 15px">
+        <img src="https://images.gr-assets.com/authors/1227984932p5/46636.jpg" alt="" style="width: 260px" class="rounded mx-auto d-block" />
+        </div>
+        <div class="mt-5">
+            <h5 style="font-size: 14px">{{author.first_name}} {{author.last_name}}'s FOLLOWERS (542)</h5>
+            <hr>
+        </div>
+        <div>
+            <a href="#">
+                <h5 style="font-size: 14px">{{author.first_name}} {{author.last_name}}'s BOOKSHELVES</h5>
+            <hr>
+                </a>
+        </div>
+        <div>
+            <a href="#">
+                <h5 style="font-size: 14px">{{author.first_name}} {{author.last_name}}'s FRIENDS (42)</h5>
+            <hr>
+                </a>
+        </div>
+
     </div>
 
-    <div class="col-9">
+    <div class="col-8">
         <h1>{{author.first_name}} {{author.last_name}}</h1>
         <hr />
          <span>email: <a href="{{ author.email }}">{{author.email}}</a></span><br>
@@ -25,11 +44,38 @@
         <br>
         <h5>{{author.first_name}} {{author.last_name}}'s Books</h5>
         <hr>
+        {% for book in author.book_author_set.all %}
+        {% if book %}
         <div class="row">
-            <div class="col-2"></div>
-            <div class="col-10"></div>
+            <div class="col-2">
+                <div class="text-center">
+                    <img src="{{ book.book.image }}" class="rounded" alt="..."  style="width: 80px; height: 100px">
+                </div>
+            </div>
+            <div class="col-7">
+                <p><a href="#" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" style="font-size: 15px">{{ book.book.title}}</a></p>
+            </div>
+            <div class="col-3">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Want to Read
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Want to Read</a></li>
+                            <li><a class="dropdown-item" href="#">Currently Reading</a></li>
+                            <li><a class="dropdown-item" href="#">Read</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
         </div>
+        <br>
+        {% endif %}
+        {% endfor %}
 
     </div>
+    <div class="col-1"></div>
 </div>
 {% else %} No author found. {% endif %} {% endblock content%}
